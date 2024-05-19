@@ -1,52 +1,64 @@
-### How to use this spring-boot project
+# Java Challenge
 
-- Install packages with `mvn package`
-- Run `mvn spring-boot:run` for starting the application (or use your IDE)
+## Project Overview
+This project is a Spring Boot application that manages employee data with basic CRUD operations. It uses an embedded H2 database and includes Swagger for API documentation.
 
-Application (with the embedded H2 database) is ready to be used ! You can access the url below for testing it :
+### Features:
+- Create, Read, Update, Delete (CRUD) operations for employees.
+- Exception handling for not found employees.
+- Security configurations using Spring Security.
+- Caching to improve performance.
+- Aspect-Oriented Programming (AOP) for cross-cutting concerns.
+- Unit tests for service and controller layers.
 
-- Swagger UI : http://localhost:8080/swagger-ui.html
-- H2 UI : http://localhost:8080/h2-console
+## Prerequisites
+- Java 8
+- Maven
 
-> Don't forget to set the `JDBC URL` value as `jdbc:h2:mem:testdb` for H2 UI.
+## Setup Instructions
+1. **Clone the Repository**
+    ```bash
+    git clone https://github.com/yourusername/java-challenge.git
+    cd java-challenge
+    ```
+
+2. **Install Dependencies**
+    ```bash
+    mvn package
+    ```
+
+3. **Run the Application**
+    ```bash
+    mvn spring-boot:run
+    ```
+    or use your IDE to run the `ApiDemoApplication` class.
+
+## Accessing the Application
+- **Swagger UI**: [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
+- **H2 Console**: [http://localhost:8080/h2-console](http://localhost:8080/h2-console)
+  - JDBC URL: `jdbc:h2:mem:testdb`
 
 
+## Enhancements
+### Code Enhancements:
+1. **Security**:
+    - Added basic authentication using Spring Security.
+    - Secured endpoints to require authentication.
 
-### Instructions
+2. **Caching**:
+    - Implemented caching for employee data to improve performance.
 
-- download the zip file of this project
-- create a repository in your own github named 'java-challenge'
-- clone your repository in a folder on your machine
-- extract the zip file in this folder
-- commit and push
+3. **Exception Handling**:
+    - Added global exception handling for employee not found scenarios.
 
-- Enhance the code in any ways you can see, you are free! Some possibilities:
-  - Add tests
-  - Change syntax
-  - Protect controller end points
-  - Add caching logic for database calls
-  - Improve doc and comments
-  - Fix any bug you might find
-- Edit readme.md and add any comments. It can be about what you did, what you would have done if you had more time, etc.
-- Send us the link of your repository.
+4. **Aspect-Oriented Programming (AOP)**:
+    - Used AOP to add additional behavior after service method executions.
 
-#### Restrictions
-- use java 8
+### Unit Tests:
+- Added unit tests for the controller and service layers using JUnit and Mockito.
 
+## Future Improvements
+- **Logging**: Enhance logging for better traceability and debugging.
 
-#### What we will look for
-- Readability of your code
-- Documentation
-- Comments in your code 
-- Appropriate usage of spring boot
-- Appropriate usage of packages
-- Is the application running as expected
-- No performance issues
-
-#### Your experience in Java
-
-Please let us know more about your Java experience in a few sentences. For example:
-
-- I have 3 years experience in Java and I started to use Spring Boot from last year
-- I'm a beginner and just recently learned Spring Boot
-- I know Spring Boot very well and have been using it for many years
+## Experience in Java
+I'm a beginner and just recently learned Spring Boot
