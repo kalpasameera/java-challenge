@@ -1,8 +1,11 @@
 package jp.co.axa.apidemo.controllers;
 
 import jp.co.axa.apidemo.entities.Employee;
+import jp.co.axa.apidemo.exceptions.EmployeeNotFoundException;
 import jp.co.axa.apidemo.services.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,36 +22,45 @@ public class EmployeeController {
     }
 
     @GetMapping("/employees")
-    public List<Employee> getEmployees() {
-        List<Employee> employees = employeeService.retrieveEmployees();
-        return employees;
+    public ResponseEntity<List<Employee>> getEmployees() {
+        return ResponseEntity.ok(employeeService.retrieveEmployees());
     }
 
     @GetMapping("/employees/{employeeId}")
-    public Employee getEmployee(@PathVariable(name="employeeId")Long employeeId) {
-        return employeeService.getEmployee(employeeId);
+    public ResponseEntity<Employee> getEmployee(@PathVariable(name = "employeeId") Long employeeId) {
+        try {
+            Employee employee = employeeService.getEmployee(employeeId);
+            return ResponseEntity.ok(employee);
+        } catch (EmployeeNotFoundException ex) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).contentType(org.springframework.http.MediaType.APPLICATION_JSON).body(null);
+        }
     }
 
     @PostMapping("/employees")
-    public void saveEmployee(Employee employee){
+    public ResponseEntity<Void> saveEmployee(@RequestBody Employee employee) {
         employeeService.saveEmployee(employee);
-        System.out.println("Employee Saved Successfully");
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @DeleteMapping("/employees/{employeeId}")
-    public void deleteEmployee(@PathVariable(name="employeeId")Long employeeId){
-        employeeService.deleteEmployee(employeeId);
-        System.out.println("Employee Deleted Successfully");
+    public ResponseEntity<Void> deleteEmployee(@PathVariable(name = "employeeId") Long employeeId) {
+        try {
+            employeeService.deleteEmployee(employeeId);
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        } catch (EmployeeNotFoundException ex) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).contentType(org.springframework.http.MediaType.APPLICATION_JSON).build();
+        }
     }
 
     @PutMapping("/employees/{employeeId}")
-    public void updateEmployee(@RequestBody Employee employee,
-                               @PathVariable(name="employeeId")Long employeeId){
-        Employee emp = employeeService.getEmployee(employeeId);
-        if(emp != null){
+    public ResponseEntity<Void> updateEmployee(@RequestBody Employee employee, @PathVariable(name = "employeeId") Long employeeId) {
+        try {
+            employeeService.getEmployee(employeeId);
+            employee.setId(employeeId);
             employeeService.updateEmployee(employee);
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        } catch (EmployeeNotFoundException ex) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).contentType(org.springframework.http.MediaType.APPLICATION_JSON).build();
         }
-
     }
-
 }
